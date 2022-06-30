@@ -1,5 +1,5 @@
 ---
-- hosts: droplets
+- hosts: AppServer
   tasks:
     - name: Installs nginx web server
       apt: pkg=nginx state=installed update_cache=true
