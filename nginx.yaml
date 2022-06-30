@@ -1,43 +1,18 @@
 ---
-- hosts: AppServer
-  tasks:
-    - name: Installs nginx web server
-      apt: pkg=nginx state=installed update_cache=true
-      notify:
-        - start nginx
-
-  handlers:
-    - name: start nginx
-      service: name=nginx state=started
-      
----
-
-- hosts: AppServer
-
+- hosts: webserver
   become: yes
-
   tasks:
 
-  - name: Installs nginx web server
+    - name: update
+      apt: update_cache=yes   
+   
+    - name: Install Nginx
+      apt: name=nginx state=latest
 
-    apt:
 
-      name: nginx
-
-      state: present
-
-      update_cache: true
-
-    notify:
-
-    - start nginx
+      notify:
+        - restart nginx
 
   handlers:
-
-  - name: start nginx
-
-    service:
-
-      name: nginx
-
-      state: present      
+    - name: restart nginx
+      service: name=nginx state=reloaded
